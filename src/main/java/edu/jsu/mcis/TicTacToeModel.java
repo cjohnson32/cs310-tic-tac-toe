@@ -73,12 +73,18 @@ public class TicTacToeModel{
         
         /* Create grid (width x width) as a 2D Mark array */
 
-        /* INSERT YOUR CODE HERE */
+        grid = new Mark[width][width]; 
 
         /* Initialize grid by filling every square with empty marks */
 
-        /* INSERT YOUR CODE HERE */
-        
+        for (int i = 0; i < width; ++i) {
+			
+			for (int j = 0; j < width; ++j) {
+				
+				grid[i][j] = Mark.EMPTY; 
+				
+			}	
+        }
     }
 	
     public boolean makeMark(int row, int col) {
@@ -87,10 +93,19 @@ public class TicTacToeModel{
            location, but only if the location is valid and if the square is
            empty! */
         
-        /* INSERT YOUR CODE HERE */
-
-        return false; /* remove this line! */
-        
+        if (isValidSquare(row, col) && !isSquareMarked(row, col)) {
+			
+			 if (xTurn) {
+				 grid[row][col] = Mark.X;
+				 xTurn = false; 			 
+			 } 
+			 else {
+				 grid[row][col] = Mark.O;
+				 xTurn = true; 
+			 }		 
+			 return true; 		 
+		}		
+        return false; /* remove this line! */    
     }
 	
     private boolean isValidSquare(int row, int col) {
