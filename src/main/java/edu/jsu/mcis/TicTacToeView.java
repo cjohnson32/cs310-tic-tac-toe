@@ -1,70 +1,84 @@
 package edu.jsu.mcis;
 
-public class TicTacToeView {
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class TicTacToeView extends JPanel implements ActionListener {
 
     private TicTacToeModel model;
+	
+	private JButton[][] squares;
+	private JPanel squaresPanel;
+	private JLabel resultLabel; 
     
     /* CONSTRUCTOR */
 	
     public TicTacToeView(TicTacToeModel model) {
         
         this.model = model;
-        
-    }
-	
-    public void viewModel() {
-        
-        /* Print the board to the console (see examples) */
+		
 		int width = model.getWidth();
-        
-		System.out.print("\n\n");
-		System.out.print("  ");
-		for (int i = 0; i < width; i++){
-			
-			System.out.print(i);
-		}
 		
-        System.out.print("\n\n");
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		squares = new JButton[width][width];
+		JPanel squaresPanel = new JPanel(new GridLayout(width, width)); 
+		resultLabel = new JLabel();
+		resultLabel.setName("ResultLabel");	
 		
-		for (int row = 0; row < width; row++){
-			
-			System.out.print(row + " ");
-			
-			for (int col = 0; col < width; col++){
-			
-				System.out.print(model.getMark(row,col));
+		for (int row = 0; row < width; ++row) {
+            
+            for (int col = 0; col < width; ++col) {
 				
+				squares[row][col] = new JButton();
+				squares[row][col].addActionListener(this);
+				squares[row][col].setName("Square" + row + col);
+				squares[row][col].setPreferredSize(new Dimension(64, 64));
+				squaresPanel.add(squares[row][col]);
+        
 			}
-			
-			System.out.print("\n");
 		}
 		
-		System.out.print("\n\n");
+		add(squaresPanel);
+		add(resultLabel);
 
-    }
+		resultLabel.setText("Let's Play Tic-Tac-Toe!"); 
+	}
 
-    public void showNextMovePrompt() {
+	@Override
+	public void actionPerformed(ActionEvent event){
+		String name = ((JButton) event.getSource()).getName();
 
-        /* Display a prompt for the player's next move (see examples) */
-
-        System.out.print("Enter the row and column numbers, separated by a space: ");
-
-    }
-
-    public void showInputError() {
-
-        /* Display an error if input is invalid (see examples) */
-
-        System.err.print("The Row and Column ENTERED is Invalid!");
-
-    }
-
-    public void showResult(String r) {
-
-        /* Display final winner */
-
-        System.out.println(r + "!");
-
-    }
+	int row = (char) name.charAt(6) - 48;
+	int col = (char) name.charAt(7) - 48;
 	
+	model.makeMark(row,col);
+	
+	setSquare();
+	
+	showResult(" "); 
+	
+	if (model.isGameover()){
+		showResult(model.getResult().toString().toUpperCase());
+		for (int i = 0; i < model.getWidth(); i++){
+			for (int j = 0; j < model.getWidth(); j++){
+				squares[i][j].setEnabled(false);
+			}
+		}
+		
+	}
 }
+
+	public void setSquare(){
+		
+		for (int row = 0; row < model.getWidth(); row++){
+			for (int col = 0; col < model.getWidth(); col++){
+				squares[row][col].setText(model.getMark(row, col).toString());
+			}
+		}
+	}
+	
+	public void showResult(String message){
+		resultLabel.setText(message);
+	}
+}	
