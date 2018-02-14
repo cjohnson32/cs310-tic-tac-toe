@@ -15,8 +15,31 @@ public class TicTacToeView {
     public void viewModel() {
         
         /* Print the board to the console (see examples) */
+		int width = model.getWidth();
         
-        /* INSERT YOUR CODE HERE */
+		System.out.print("\n\n");
+		System.out.print("  ");
+		for (int i = 0; i < width; i++){
+			
+			System.out.print(i);
+		}
+		
+        System.out.print("\n\n");
+		
+		for (int row = 0; row < width; row++){
+			
+			System.out.print(row + " ");
+			
+			for (int col = 0; col < width; col++){
+			
+				System.out.print(model.getMark(row,col));
+				
+			}
+			
+			System.out.print("\n");
+		}
+		
+		System.out.print("\n\n");
 
     }
 
@@ -24,7 +47,7 @@ public class TicTacToeView {
 
         /* Display a prompt for the player's next move (see examples) */
 
-        /* INSERT YOUR CODE HERE */
+        System.out.print("Enter the row and column numbers, separated by a space: ");
 
     }
 
@@ -32,7 +55,7 @@ public class TicTacToeView {
 
         /* Display an error if input is invalid (see examples) */
 
-        /* INSERT YOUR CODE HERE */
+        System.err.print("The Row and Column ENTERED is Invalid!");
 
     }
 
